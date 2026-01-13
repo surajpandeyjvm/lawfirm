@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&S Associates | Advocates & Legal Consultants Jharkhand</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #0f2c4e; /* Navy Blue */
+            --accent: #c5a059;  /* Legal Gold */
+            --white: #ffffff;
+            --light-bg: #f8f9fa;
+            --text: #333;
+            --overlay: rgba(0,0,0,0.8);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Open Sans', sans-serif; color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Merriweather', serif; color: var(--primary); }
+        
+        /* --- UTILITIES --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 80px 0; }
+        .text-center { text-align: center; }
+        .btn { display: inline-block; padding: 12px 30px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; transition: 0.3s; cursor: pointer; border: none;}
+        .btn-gold { background: var(--accent); color: var(--primary); }
+        .btn-gold:hover { background: #b5932a; }
+        .btn-outline { border: 2px solid var(--primary); color: var(--primary); background: transparent; }
+        .btn-outline:hover { background: var(--primary); color: var(--white); }
+
+        /* --- DISCLAIMER MODAL --- */
+        #disclaimer-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--overlay); z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: var(--white); max-width: 600px; padding: 30px;
+            border-radius: 8px; border-top: 5px solid var(--accent);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-content h3 { margin-bottom: 15px; color: var(--primary); }
+        .modal-content p, .modal-content li { font-size: 0.9rem; margin-bottom: 10px; color: #555; }
+        .modal-content ul { padding-left: 20px; }
+        .modal-actions { margin-top: 20px; display: flex; gap: 15px; justify-content: flex-end; }
+
+        /* --- HEADER & LOGO --- */
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
+        .logo { font-family: 'Merriweather', serif; font-size: 26px; font-weight: 900; color: var(--primary); letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); font-style: italic; }
+        
+        .contact-header { display: flex; flex-direction: column; align-items: flex-end; font-size: 13px; color: #555; line-height: 1.4; }
+        .nav-links { display: flex; gap: 20px; margin-left: 30px;}
+        .nav-links a { color: var(--primary); font-weight: 600; font-size: 14px; text-decoration: none; }
+
+        /* --- HERO --- */
+        .hero {
+            background: linear-gradient(rgba(15, 44, 78, 0.92), rgba(15, 44, 78, 0.85)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Jharkhand_High_Court.jpg/1200px-Jharkhand_High_Court.jpg');
+            background-size: cover; background-position: center; height: 60vh;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white);
+        }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; color: var(--white); }
+        .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 30px; opacity: 0.9; font-weight: 300; }
+        
+        /* --- TEAM SECTION --- */
+        .team-section { background: var(--white); }
+        .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 50px; }
+        .team-card { background: var(--white); border: 1px solid #eee; border-radius: 8px; overflow: hidden; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; width: 100%; max-width: 350px; }
+        .team-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .team-img { width: 100%; height: 350px; object-fit: cover; object-position: top center; border-bottom: 3px solid var(--accent); }
+        /* Generic placeholder */
+        .team-img-placeholder { width: 100%; height: 350px; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--primary); border-bottom: 3px solid var(--accent); }
+        
+        .team-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .team-name { font-size: 1.4rem; margin-bottom: 5px; font-weight: 700; }
+        .team-role { color: var(--accent); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 15px; display: block; }
+        .team-bio { font-size: 0.9rem; color: #555; margin-bottom: 20px; flex-grow: 1; }
+        .academics { font-size: 0.85rem; color: #777; border-top: 1px solid #eee; padding-top: 15px; }
+
+        /* --- EXPERTISE --- */
+        .services-bg { background: var(--light-bg); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .service-card { background: var(--white); padding: 30px; border-top: 4px solid var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .service-card h3 { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.25rem;}
+        .service-card ul { list-style: none; padding-left: 0; }
+        .service-card li { position: relative; padding-left: 20px; margin-bottom: 12px; font-size: 14px; color: #444; }
+        .service-card li::before { content: "▪"; color: var(--accent); position: absolute; left: 0; font-weight: bold; font-size: 18px; line-height: 1; }
+        .sub-list li { font-size: 13px; color: #666; margin-bottom: 5px; border-left: 2px solid #eee; padding-left: 10px; margin-left: 5px; }
+        .sub-list li::before { content: ""; }
+
+        /* --- INDIVIDUAL CLIENTS NOTE --- */
+        .individual-note { background: #eef2f5; padding: 40px; border-radius: 8px; margin-top: 40px; text-align: left; border-left: 5px solid var(--primary); }
+
+        /* --- CLIENTS --- */
+        .client-section { text-align: center; background: var(--white); }
+        .client-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px; opacity: 0.8; }
+        .client-badge { border: 2px solid #eee; color: var(--primary); padding: 10px 25px; border-radius: 50px; font-size: 14px; font-weight: 700; }
+
+        /* --- CONTACT --- */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .contact-box { background: var(--light-bg); padding: 30px; border-radius: 8px; }
+        .contact-row { display: flex; gap: 15px; margin-bottom: 20px; }
+        .icon { color: var(--accent); font-size: 20px; }
+
+        /* --- FOOTER --- */
+        footer { background: #0a1f38; color: #777; padding: 30px 0; text-align: center; font-size: 14px; border-top: 3px solid var(--accent); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .nav-wrapper { flex-direction: column; height: auto; padding: 20px; }
+            .nav-links { margin: 20px 0; flex-wrap: wrap; justify-content: center; }
+            .contact-header { align-items: center; margin-top: 15px; text-align: center; }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="disclaimer-modal">
+        <div class="modal-content">
+            <h3>Disclaimer</h3>
+            <p>The Bar Council of India does not permit solicitation of work and advertising by legal practitioners and advocates. By accessing the S&S Associates website, the user acknowledges that:</p>
+            <ul>
+                <li>The user wishes to gain more information about us for his/her information and use.</li>
+                <li>There has been no attempt by us to advertise or solicit work.</li>
+                <li>Any information obtained or downloaded by the user from our website does not lead to the creation of the client - attorney relationship.</li>
+                <li>None of the information contained in our website amounts to any form of legal opinion or legal advice.</li>
+            </ul>
+            <div class="modal-actions">
+                <a href="https://www.google.com" class="btn btn-outline">Disagree</a>
+                <button class="btn btn-gold" onclick="closeDisclaimer()">Agree</button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container nav-wrapper">
+            <div class="logo">S&S <span>Associates</span></div>
+            
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#team">Our Team</a>
+                <a href="#expertise">Practice Areas</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <div class="contact-header">
+                <div>📞 +91 74887 36808</div>
+                <div>✉️ surajpandeyjvm@gmail.com</div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 14px; color: var(--accent); margin-bottom: 10px;">Ranchi, Jharkhand</p>
+            <h1>Advocates & Legal Consultants</h1>
+            <p>Providing comprehensive legal representation at the High Court of Jharkhand, Tribunals, and District Courts with professional integrity and dedication.</p>
+            <a href="#contact" class="btn btn-gold">Chamber Details</a>
+        </div>
+    </section>
+
+    <section class="section-padding team-section" id="team">
+        <div class="container">
+            <div class="text-center">
+                <h2>Our Team</h2>
+                <div style="width: 60px; height: 3px; background: var(--accent); margin: 15px auto;"></div>
+            </div>
+
+            <div class="team-grid">
+                
+                <div class="team-card">
+                    <img src="suraj.jpeg" alt="Advocate Suraj Kumar Pandey" class="team-img" style="object-position: top;" onerror="this.src='https://via.placeholder.com/350x350?text=Suraj+Kumar+Pandey'">
+                    <div class="team-info">
+                        <h3 class="team-name">Suraj Kumar Pandey</h3>
+                        <span class="team-role">Partner</span>
+                        <p class="team-bio">
+                            Specializing in Banking Law and Corporate litigation. He handles matters related to SARFAESI, DRT, and corporate disputes for banks and private entities.
+                        </p>
+                        <div class="academics">
+                            <strong>Academia:</strong> HPNLU (Shimla), LLM (NUSRL).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-img-placeholder">SSM</div>
+                    <div class="team-info">
+                        <h3 class="team-name">Soumya Sakshi Mishra</h3>
+                        <span class="team-role">Associate</span>
+                        <p class="team-bio">
+                            Focused on legal research, drafting, and complex litigation strategy in corporate and constitutional matters.
+                        </p>
+                        <div class="academics">
+                            <strong>Academia:</strong> Christ University, LLM (NUSRL), Pursuing PhD (NUJS).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding services-bg" id="expertise">
+        <div class="container">
+            <div class="text-center">
+                <h2>Scope of Practice</h2>
+                <p style="margin-bottom: 40px; color: #666;">Comprehensive Legal Solutions</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Litigation & Dispute Resolution</h3>
+                    <p style="font-size: 13px; margin-bottom: 10px; color: #666;">Extensive experience representing clients before constitutional courts and tribunals.</p>
+                    <ul>
+                        <li>Litigation before the Hon’ble High Courts (Writs & Appeals)</li>
+                        <li>Proceedings before Debt Recovery Tribunals (DRT) and DRAT</li>
+                        <li>Matters before the Central Administrative Tribunal (CAT)</li>
+                        <li>State Consumer Disputes Redressal Commission (SCDRC) & Consumer Fora</li>
+                        <li>Civil and criminal litigation at trial, appellate, and writ stages</li>
+                        <li>Commercial and contractual disputes</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <h3>Advisory & Regulatory Practice</h3>
+                    <p style="font-size: 13px; margin-bottom: 10px; color: #666;">Strategic advisory for public authorities and financial institutions.</p>
+                    <ul>
+                        <li><strong>Service & Employment Law:</strong> Disciplinary proceedings, service benefits, and administrative disputes</li>
+                        <li><strong>Banking & Financial Laws:</strong> SARFAESI Act, recovery proceedings, guarantees, and lender-borrower disputes</li>
+                        <li><strong>Corporate Law:</strong> Contractual structuring, risk assessment, and dispute management</li>
+                        <li><strong>Consumer Protection:</strong> Advising institutions and individuals</li>
+                        <li><strong>Constitutional Law:</strong> Writ petitions and challenges to State action</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <h3>Sectoral Expertise</h3>
+                    <p style="font-size: 13px; margin-bottom: 10px; color: #666;">Domain-specific expertise in regulated sectors.</p>
+                    <ul>
+                        <li><strong>Banking Sector:</strong> Empanelled representation for SBI, PNB, Bank of Baroda, Union Bank of India, Bank of India, IOB.</li>
+                        <li><strong>Public Sector:</strong> Panel Advocate for EPFO and BSNL.</li>
+                        <li><strong>Infrastructure:</strong> EPC Contract Management, Transmission & Distribution (T&D).</li>
+                        <li><strong>Power Sector:</strong> Generation, transmission, and distribution disputes.</li>
+                        <li><strong>Telecom:</strong> Regulatory and litigation support for service providers.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="individual-note">
+                <h3 style="color: var(--primary); margin-bottom: 10px;">Individual & Private Client Representation</h3>
+                <p style="color: #444; font-size: 0.95rem;">
+                    We don't just represent banks and government bodies; we also take cases for individual clients. We provide robust legal assistance in <strong>Civil and Criminal matters</strong>, specifically pertaining to Writs, Letters Patent Appeals (LPA), Original Applications (OA), and Miscellaneous Applications (MA) before the High Court and Central Administrative Tribunal (CAT).
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding client-section">
+        <div class="container">
+            <h2>Institutional Experience</h2>
+            <div class="client-list">
+                <div class="client-badge">SAMSUNG</div>
+                <div class="client-badge">BSNL</div>
+                <div class="client-badge">EPFO</div>
+                <div class="client-badge">SBI</div>
+                <div class="client-badge">Road Const. Dept</div>
+                <div class="client-badge">PNB</div>
+                <div class="client-badge">BOB</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding services-bg" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div>
+                    <h2>Chamber Details</h2>
+                    <p style="margin-bottom: 30px;">Located in Kadru, Ranchi.</p>
+                    
+                    <div class="contact-box">
+                        <div class="contact-row">
+                            <span class="icon">📍</span>
+                            <div>
+                                <strong>Address:</strong><br>
+                                New A.G Co-operative Colony,<br>
+                                Kadru, Ranchi, Jharkhand - 814112
+                            </div>
+                        </div>
+                        
+                        <div class="contact-row" style="border-top: 1px solid #ddd; padding-top: 15px;">
+                            <span class="icon">📞</span>
+                            <div>
+                                <strong>Contact:</strong><br>
+                                <a href="tel:7488736808" style="color: inherit;">+91 74887 36808</a><br>
+                                <a href="mailto:surajpandeyjvm@gmail.com" style="color: inherit; font-size: 14px;">surajpandeyjvm@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--white); padding: 40px; border-radius: 8px; border: 1px solid #eee;">
+                    <h3>Contact Us</h3>
+                    <p style="font-size: 14px; margin-bottom: 20px;">For appointments or case inquiries.</p>
+                    <form>
+                        <input type="text" placeholder="Your Name" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px;">
+                        <input type="text" placeholder="Phone Number" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px;">
+                        <textarea placeholder="Brief details..." style="width: 100%; padding: 12px; height: 100px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                        <button class="btn btn-gold" style="width: 100%;">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="logo" style="font-size: 20px; color: #fff; margin-bottom: 10px;">S&S <span>Associates</span></div>
+            <p>&copy; 2025 S&S Associates. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function closeDisclaimer() {
+            document.getElementById('disclaimer-modal').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
